@@ -3,29 +3,40 @@
         <h2 class="text-center uppercase font-bold text-2xl  "> User Login </h2>
 
         <div class="mt-6">
-          
-            <input type="email" placeholder="Email"  formControlName="email" name="email" class="p-2 rounded-3xl bg-white  focus:ring-4  focus:ring-red-500 opacity-12 outline-none w-60" >
+
+            <input type="email" placeholder=" Enter You Email" formControlName="email" name="email"
+                class="p-2 rounded-3xl bg-white/20   focus:ring-4  focus:ring-cyan-800 outline-none w-60">
 
         </div>
-         <div class="emailValidtion">
-            @if (loginForm.controls['email'].errors?.['requied']&& loginForm.controls['email'].touched) {
-             <span class="text-red-800">Email is requied </span>
+        <div class="emailValidtion">
+            @if (loginForm.controls['email'].errors?.['required']&& loginForm.controls['email'].touched) {
+            <span class="text-red-800 m-2 block">Email is requied </span>
             }
-         </div>
-        <div class="mt-5">
-            <input type="password" name="password" id="password" formControlName="password" placeholder="password" class="p-2  focus:ring-4  focus:ring-red-500 rounded-3xl bg-white opacity-12 outline-none w-60" >
-        </div>
-         <div class="passwordValidtion">
-@if (loginForm.controls['password'].errors?.['required']&&loginForm.controls['password'].touched) {
-<span class="text-red-700 cursor-pointer ">password is requied</span>
+             @if(emailErrorMessage){
+            <span class="text-red-700 cursor-pointer m-2 block ">{{emailErrorMessage}}</span>
+            }
 
-}
-        
-</div>
-        <input type="submit" value="Login" class="p-2 rounded-3xl w-60 text-black text-center mt-5 bg-white ">
-   <div class="text-center mt-1">
-  
-       <a href="" class="text-center " routerLink="/signup"> Create Account ?</a>
-   </div>
+        </div>
+        <div class="mt-5">
+            <input type="password" name="password" id="password" formControlName="password"
+                placeholder="Enter You Password"
+                class="p-2  focus:ring-4   focus:ring-cyan-800 rounded-3xl bg-white/20 outline-none w-60">
+        </div>
+        <div class="passwordValidtion">
+            @if (loginForm.controls['password'].errors?.['required']&&loginForm.controls['password'].touched) {
+            <span class="text-red-700 cursor-pointer m-2 block ">password is requied</span>
+            }
+            @if(passwordErrorMessage){
+            <span class="text-red-700 cursor-pointer m-2 block ">{{passwordErrorMessage}}</span>
+
+            }
+
+        </div>
+        <input type="submit" value="Login" 
+            class="p-2 rounded-3xl w-60 text-black text-center mt-5 bg-white ">
+        <div class="text-center mt-1">
+
+            <a href="" class="text-center " routerLink="/signup"> Create Account ?</a>
+        </div>
     </form>
 </body>
