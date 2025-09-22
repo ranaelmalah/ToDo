@@ -1,0 +1,27 @@
+<body class="bg-cyan-950 flex justify-center flex-col  items-center  h-screen text-white">
+    <form [formGroup]="signUpForm" (ngSubmit)="SubmitionSignUpForm()" signUpForm="signUpfrom">
+        <h2 class="text-center uppercase font-bold text-2xl  "> Sign Up </h2>
+        <div class="mt-6">
+            <input type="email" formControlName="email" placeholder="Email" name="email"
+                class="p-2 rounded-3xl bg-white text-white opacity-12 outline-none w-60  focus:ring-4  focus:ring-red-500">
+        </div>
+        <div class="emailValidtion">
+        @if(signUpForm.controls["email"].errors?.['required'] &&signUpForm.controls["email"].touched){
+                <span class="text-red-700 "> Emil is required </span>
+            }
+            </div>
+        <div class="mt-5">
+            <input type="password" name="password" formControlName="password" id="password" placeholder="password"
+                class="p-2  rounded-3xl bg-white opacity-12 outline-none w-60  focus:ring-4  focus:ring-red-500">
+        </div>
+          <div class="passwordValidtion">
+            @if( signUpForm.controls["password"].errors?.['required'] && signUpForm.controls["password"].touched){
+                <span class="text-red-700"> Password is required </span>
+            }
+        </div>
+        <input type="submit" value="Sign Up" class="p-2 cursor-pointer rounded-3xl w-60 text-black text-center mt-5 bg-white">
+        <div class="text-center mt-1">
+            <a href="" class="text-center" routerLink="/login"> Have an Account ?</a>
+        </div>
+    </form>
+</body>

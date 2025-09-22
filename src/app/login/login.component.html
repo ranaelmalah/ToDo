@@ -1,0 +1,31 @@
+<body class="bg-cyan-950 flex justify-center flex-col  items-center  h-screen text-white">
+    <form [formGroup]="loginForm" class="" (ngSubmit)="SubmitionLoginForm()">
+        <h2 class="text-center uppercase font-bold text-2xl  "> User Login </h2>
+
+        <div class="mt-6">
+          
+            <input type="email" placeholder="Email"  formControlName="email" name="email" class="p-2 rounded-3xl bg-white  focus:ring-4  focus:ring-red-500 opacity-12 outline-none w-60" >
+
+        </div>
+         <div class="emailValidtion">
+            @if (loginForm.controls['email'].errors?.['requied']&& loginForm.controls['email'].touched) {
+             <span class="text-red-700">Email is requied </span>
+            }
+         </div>
+        <div class="mt-5">
+            <input type="password" name="password" id="password" formControlName="password" placeholder="password" class="p-2  focus:ring-4  focus:ring-red-500 rounded-3xl bg-white opacity-12 outline-none w-60" >
+        </div>
+         <div class="passwordValidtion">
+@if (loginForm.controls['password'].errors?.['required']&&loginForm.controls['password'].touched) {
+<span class="text-red-700 cursor-pointer ">password is requied</span>
+
+}
+        
+</div>
+        <input type="submit" value="Login" class="p-2 rounded-3xl w-60 text-black text-center mt-5 bg-white ">
+   <div class="text-center mt-1">
+  
+       <a href="" class="text-center " routerLink="/signup"> Create Account ?</a>
+   </div>
+    </form>
+</body>
