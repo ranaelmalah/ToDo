@@ -1,0 +1,28 @@
+<form [formGroup]="authForm" (ngSubmit)="submit()">
+    <div class="mt-6">
+        <input type="email" placeholder=" Enter You Email" formControlName="email" name="email"
+            class="p-2 rounded-3xl bg-white/20   focus:ring-4  focus:ring-cyan-800 outline-none w-60">
+    </div>
+    <div class="emailValidtion">
+        @if (authForm.controls['email'].errors?.['required']&& authForm.controls['email'].touched) {
+        <span class="text-red-800 m-2 block">Email is requied </span>
+        }
+        @if(authForm.controls['email'].errors?.['email']){
+        <span class="text-red-700 cursor-pointer m-2 block ">in vaild email format</span>
+        }
+    </div>
+    <div class="mt-5">
+        <input type="password" name="password" id="password" formControlName="password" placeholder="Enter You Password"
+            class="p-2  focus:ring-4   focus:ring-cyan-800 rounded-3xl bg-white/20 outline-none w-60">
+    </div>
+    <div class="passwordValidtion">
+        @if (authForm.controls['password'].errors?.['required']&&authForm.controls['password'].touched) {
+        <span class="text-red-700 cursor-pointer m-2 block ">password is requied</span>
+        }
+        @if(authForm.controls['password'].errors?.['minlength']){
+        <span class="text-red-700 cursor-pointer m-2 block ">Password must be at least 6 characters </span>
+        }
+    </div>
+    <input type="submit" class="p-2 rounded-3xl w-60 text-black text-center mt-5 bg-white ">
+
+</form>

@@ -1,12 +1,25 @@
 import { Component } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
 })
 export class HomeComponent {
-
+  constructor(
+    private authService: AuthService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
+  logOut(): void {
+    this.authService.logout().then(() => {
+      this.toastr.success('User loged out ', 'success');
+      this.router.navigate(['/login']);
+    });
+  }
 }
