@@ -1,27 +1,40 @@
-<form [formGroup]="taskForm" (ngSubmit)="addTask()" class="m-9 p-10 flex flex-col justify-center bg-cyan-500">
-  <h2 class="text-center font-bold text-5xl text-white">Task Details</h2>
+<div class="addTasks flex justify-center">
+  <button class="bg-cyan-500 py-3 px-5 text-center" (click)="openAddModal()">Add task </button>
+</div>
+@if (modalIsOpened) {
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" (click)="closeModal()">
+  <div class="bg-cyan-500 rounded-2xl shadow-lg p-10 w-[500px] relative" (click)="$event.stopPropagation()">
+    <!-- Close Button -->
+    <button (click)="closeModal()" class="absolute top-3 right-3 text-white text-2xl font-bold">
+      &times;
+    </button>
+    <form [formGroup]="taskForm" (ngSubmit)="submitForm()" class="m-9 p-10 flex flex-col justify-center bg-cyan-500">
+      <h2 class="text-center font-bold text-5xl text-white">{{isEditMode?'Update Task':'Add Task'}}</h2>
+      <div>
+        <label class="text-center font-bold text-2xl text-white">Task Title:</label>
+        <input type="text" formControlName="title" class="m-2 py-2 px-4 w-60" placeholder="Enter Task Title" />
+      </div>
+      <div>
+        <label class="text-center font-bold text-2xl text-white">Task Description:</label>
+        <input type="text" formControlName="description" class="m-2 py-2 px-4 w-60"
+          placeholder="Enter Task Description" />
+      </div>
+      <div>
+        <label class="text-center font-bold text-2xl text-white">Task Status:</label>
+        <select formControlName="status" class="m-2 py-2 px-4 w-60">
+          <option value="To do">To do</option>
+          <option value="In progress">In progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+      <button type="submit" class="bg-white py-2 px-5 mt-4 rounded-3xl cursor-pointer">
+        {{ isEditMode ? 'Update Task' : 'Add Task' }}
+      </button>
+    </form>
 
-  <div>
-    <label class="text-center font-bold text-2xl text-white">Task Title:</label>
-    <input type="text" formControlName="title" class="m-2 py-2 px-4 w-60" placeholder="Enter Task Title" />
   </div>
-
-  <div>
-    <label class="text-center font-bold text-2xl text-white">Task Description:</label>
-    <input type="text" formControlName="description" class="m-2 py-2 px-4 w-60" placeholder="Enter Task Description" />
-  </div>
-
-  <div>
-    <label class="text-center font-bold text-2xl text-white">Task Status:</label>
-    <select formControlName="status" class="m-2 py-2 px-4 w-60">
-      <option value="To do">To do</option>
-      <option value="In progress">In progress</option>
-      <option value="Completed">Completed</option>
-    </select>
-  </div>
-
-  <input type="submit" value="Add Task" class="bg-white py-2 px-5 rounded-3xl cursor-pointer" />
-</form>
+</div>
+}
 <div class="overflow-x-auto m-8">
   <table class="min-w-full bg-white shadow-lg rounded-lg overflow-hidden">
     <thead class="bg-cyan-500 text-white">
@@ -31,27 +44,30 @@
         <th class="py-3 px-6 text-left">Status</th>
         <th class="py-3 px-6 text-left">Created At</th>
         <th class="py-3 px-6 text-left">controls</th>
-
       </tr>
     </thead>
     <tbody class="text-gray-700">
       @for (task of tasks; track task.id) {
-        <tr class="border-b hover:bg-gray-100">
-          <td class="py-3 px-6">{{ task.title }}</td>
-          <td class="py-3 px-6">{{ task.description }}</td>
-          <td class="py-3 px-6">
-            <span 
-              class="px-3 py-1 rounded-full text-sm font-semibold"
-              
-            >
-              {{ task.status }}
-            </span>
-          </td>
-          <td><button>Edit</button></td>
-          <td><button>Delete</button></td>
+      <tr class="border-b hover:bg-gray-100">
+        <td class="py-3 px-6">{{ task.title }}</td>
+        <td class="py-3 px-6">{{ task.description }}</td>
+        <td class="py-3 px-6">
+          <span class="px-3 py-1 rounded-full text-sm font-semibold">
+            {{ task.status }}
+          </span>
+        </td>
+        <td>{{formatDate(task.createdAt)}}
 
-        </tr>
-         
+          @if(task.updatedAt){
+          <br>
+          <small class="text-muted">Updated: {{formatDate(task.updatedAt)}}</small>
+          }
+        </td>
+
+        <td><button class="bg-cyan-400 p-2 m-2 rounded" (click)="openEditModal(task)">Edit</button>
+          <button class="bg-cyan-400 p-2  rounded" (click)="removeTask(task.id!)">Delete</button>
+        </td>
+      </tr>
       }
     </tbody>
   </table>
