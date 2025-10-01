@@ -1,15 +1,13 @@
-import { inject, Injectable } from '@angular/core';
+import {  Injectable } from '@angular/core';
 import {
   collection,
   addDoc,
   serverTimestamp,
-  query,
-  orderBy,
-  getDoc,
-  getDocs,
   onSnapshot,
   doc,
   deleteDoc,
+  query,
+  where,
 } from 'firebase/firestore';
 import { auth, db } from '../../firebase.config';
 import { ITask } from '../models/task';
@@ -21,7 +19,6 @@ import { updateDoc } from 'firebase/firestore';
 })
 export class TaskService {
   constructor(private toastr: ToastrService) {}
-
   private taskCollection = collection(db, 'tasks');
   async addTask(task: Omit<ITask, 'id' | 'createdAt'>): Promise<string> {
     const user = auth.currentUser;
@@ -43,8 +40,14 @@ export class TaskService {
   }
   getTasksRealtime(): Observable<ITask[]> {
     return new Observable<ITask[]>((observer) => {
+      const user =auth.currentUser;
+      if(!user){ 
+        observer.next([])
+        return;
+      }
+      const taskQuery=query(this.taskCollection, where('userId', '==', user.uid))
       return onSnapshot(
-        this.taskCollection,
+        taskQuery,
         (snapshot) => {
           const tasks = snapshot.docs.map((doc) => ({
             id: doc.id,
@@ -61,6 +64,10 @@ export class TaskService {
   }
   async updateTask(id: string, data: Partial<ITask>): Promise<void> {
     try {
+      const user=auth.currentUser;
+      if(!user){
+        throw new Error('User not logged in');
+      }
       await updateDoc(doc(db, 'tasks', id), {
         ...data,
         updatedAt: serverTimestamp(),

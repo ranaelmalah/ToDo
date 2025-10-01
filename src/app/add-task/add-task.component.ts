@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ITask } from '../models/task';
 import { ToastrService } from 'ngx-toastr';
 import { TaskService } from '../services/task.service';
@@ -13,14 +7,15 @@ import {
   FormControl,
   FormGroup,
   Validators,
+  FormsModule,
 } from '@angular/forms';
 import { serverTimestamp } from 'firebase/firestore';
 import { Subject, takeUntil } from 'rxjs';
-import { DatePipe } from '@angular/common';
+import { auth } from '../../firebase.config';
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.css',
 })
@@ -34,6 +29,8 @@ export class AddTaskComponent implements OnInit, OnDestroy {
   currentUserId: string | null = null;
   private destroy$ = new Subject<void>();
   tasks: ITask[] = [];
+  selectedStatus: string = 'All';
+  loggeduser = auth.currentUser;
   formatDate(timestamp: any): string {
     if (!timestamp || !timestamp.toDate) return 'N/A';
     return timestamp.toDate().toLocaleString();
@@ -47,7 +44,7 @@ export class AddTaskComponent implements OnInit, OnDestroy {
           this.tasks = tasks;
         },
         error: (error) => {
-          this.toastr.error('Error loading tasks');
+          this.toastr.error('Error loading tasks', 'Error');
         },
       });
   }
@@ -60,10 +57,24 @@ export class AddTaskComponent implements OnInit, OnDestroy {
     description: new FormControl('', Validators.required),
     status: new FormControl('To do', Validators.required),
   });
+  get filteredTasks(): ITask[] {
+    if (this.selectedStatus === 'All') {
+      return this.tasks;
+    }
+    return this.tasks.filter(
+      (task) => task.status.toLowerCase() === this.selectedStatus.toLowerCase()
+    );
+  }
   openAddModal(): void {
     this.isEditMode = false;
     this.currentUserId = null;
     this.modalIsOpened = true;
+    const user = auth.currentUser;
+    if (!user) {
+      this.modalIsOpened = false;
+      this.toastr.error('Please login to add your tasks');
+      throw new Error('User not logged in');
+    }
   }
   openEditModal(task: ITask): void {
     this.isEditMode = true;
@@ -71,7 +82,6 @@ export class AddTaskComponent implements OnInit, OnDestroy {
     this.taskForm.patchValue(task);
     this.modalIsOpened = true;
   }
-
   closeModal() {
     this.modalIsOpened = false;
   }
@@ -80,10 +90,18 @@ export class AddTaskComponent implements OnInit, OnDestroy {
       const formData = this.taskForm.value;
       try {
         if (this.isEditMode && this.currentUserId) {
-          await this.taskService.updateTask(this.currentUserId, formData);
+          await this.taskService.updateTask(this.currentUserId, {
+            ...formData,
+            updatedAt: serverTimestamp(),
+          });
+         
           this.toastr.success('Task updated successfully');
         } else {
-          await this.taskService.addTask(formData);
+          await this.taskService.addTask({
+            ...formData,
+            createdAt: serverTimestamp(),
+          });
+         this.taskForm.reset();
           this.toastr.success('Task added successfully');
         }
         this.closeModal();
