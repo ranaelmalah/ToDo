@@ -1,0 +1,17 @@
+<nav class="bg-cyan-600 p-4 flex justify-between items-center text-white shadow-md">
+    <div class="text-center font-bold text-2xl text-white ">To-Do App
+    </div>
+    <div class="flex items-center gap-4">
+        @if (isLoggedIn) {
+        <span class="text-sm">Hi, {{ userEmail }}</span>
+        <button class="bg-cyan-500 py-2 px-5 rounded-3xl" (click)="logOut()">
+            Logout
+        </button>
+        }
+        @if(!isLoggedIn){
+        <button routerLink="/login" class="bg-white text-cyan-600 px-3 py-1 rounded hover:bg-gray-200">
+            Login
+        </button>
+        }
+    </div>
+</nav>

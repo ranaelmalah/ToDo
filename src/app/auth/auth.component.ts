@@ -26,6 +26,7 @@ export class AuthComponent {
       Validators.minLength(6),
     ]),
   });
+  
   submit() {
     if (this.authForm.valid) {
       this.formSubmit.emit(this.authForm.value);
