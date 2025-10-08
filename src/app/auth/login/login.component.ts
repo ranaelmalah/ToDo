@@ -17,6 +17,22 @@ export class LoginComponent {
     private router: Router,
     private toastr: ToastrService
   ) {}
+  /**
+ * Handles the user login process using provided email and password credentials.
+ *
+ * - Calls the authentication service to log in the user.
+ * - On successful login:
+ *   - Displays a success notification using Toastr.
+ *   - Navigates the user to the `/home` route.
+ * - On login failure:
+ *   - Displays specific error messages based on the Firebase auth error code:
+ *     - `auth/user-not-found` → No user found with this email.
+ *     - `auth/wrong-password` → Incorrect password.
+ *     - Any other error → Generic "Wrong Email or Password" message.
+ *
+ * @param {AuthCredentials} param0 - An object containing `email` and `password`.
+ * @returns {Promise<void>} A promise that resolves after the login attempt.
+ */
   submitLogin({ email, password }: AuthCredentials): Promise<void> {
     return this.authService
       .login(email, password)
