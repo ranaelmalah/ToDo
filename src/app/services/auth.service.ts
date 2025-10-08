@@ -15,6 +15,6 @@ export class AuthService {
     return signInWithEmailAndPassword(auth, email, password);
   }
   logout() {
-   return signOut(auth);
+    return signOut(auth);
   }
 }
