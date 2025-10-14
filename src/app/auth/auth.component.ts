@@ -26,7 +26,12 @@ export class AuthComponent {
       Validators.minLength(6),
     ]),
   });
-  
+  /**
+ * Handles the form submission process.
+ * This method checks if the `authForm` is valid.
+ * If the form is valid, it emits the form data through the `formSubmit` event emitter
+ * to notify the parent component further actions 
+ */
   submit() {
     if (this.authForm.valid) {
       this.formSubmit.emit(this.authForm.value);

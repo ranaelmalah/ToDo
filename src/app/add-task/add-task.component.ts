@@ -10,7 +10,6 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { serverTimestamp } from 'firebase/firestore';
-import { Subject, takeUntil } from 'rxjs';
 import { auth } from '../../firebase.config';
 import { Timestamp } from 'firebase/firestore';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -29,6 +28,11 @@ export class AddTaskComponent implements OnInit {
   tasks: ITask[] = [];
   selectedStatus = 'All';
   loggeduser = auth.currentUser;
+  taskForm: FormGroup = new FormGroup({
+    title: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    description: new FormControl('', Validators.required),
+    status: new FormControl('To do', Validators.required),
+  });
   /**
    * Returns a filtered list of tasks based on the currently selected status
    * If the selected status is 'All', all tasks are returned.
@@ -48,15 +52,15 @@ export class AddTaskComponent implements OnInit {
     private taskService: TaskService
   ) {}
   ngOnInit(): void {
-   this.loadTasks()
+    this.loadTasks();
   }
- /**
- * Subscribes to the real-time task stream from Firestore.
- * Updates the local task list whenever changes occur.
- * Displays an error message if loading fails.
- */
-private loadTasks(): void {
- this.taskService
+  /**
+   * Subscribes to the real-time task stream from Firestore.
+   * Updates the local task list whenever changes occur.
+   * Displays an error message if loading fails.
+   */
+  private loadTasks(): void {
+    this.taskService
       .getTasksRealtime()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -73,7 +77,7 @@ private loadTasks(): void {
    * @param timestamp
    * @returns a formated date and time string
    */
-  formatDate(time: Timestamp | Date): string {
+  formatDate(time: Timestamp): string {
     if (!time) return 'N/A';
     let date: Date;
     if (time instanceof Date) {
@@ -85,12 +89,6 @@ private loadTasks(): void {
     }
     return date.toLocaleString();
   }
-
-  taskForm: FormGroup = new FormGroup({
-    title: new FormControl('', [Validators.required, Validators.minLength(2)]),
-    description: new FormControl('', Validators.required),
-    status: new FormControl('To do', Validators.required),
-  });
   /**
    * open the modal for adding a new task
    * Sets the component to add mode, clears any existing task data,
