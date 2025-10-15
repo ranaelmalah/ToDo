@@ -18,7 +18,6 @@ export class AuthComponent {
     email: string;
     password: string;
   }>();
-  constructor(private authService: AuthService) {}
   authForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', [
@@ -26,13 +25,16 @@ export class AuthComponent {
       Validators.minLength(6),
     ]),
   });
+  constructor(private authService: AuthService) {}
+
   /**
- * Handles the form submission process.
+ * @description Handles the form submission process.
  * This method checks if the `authForm` is valid.
  * If the form is valid, it emits the form data through the `formSubmit` event emitter
  * to notify the parent component further actions 
- */
-  submit() {
+  @returns{void}void
+  */
+  submit(): void {
     if (this.authForm.valid) {
       this.formSubmit.emit(this.authForm.value);
     }

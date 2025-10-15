@@ -21,7 +21,7 @@ export class TaskService {
   private taskCollection = collection(db, 'tasks');
   constructor(private toastr: ToastrService) {}
   /**
-   * Adds a new task to the Firestore 'tasks' collection.
+   *@description Adds a new task to the Firestore 'tasks' collection.
    * Ensure that the user logged in before adding the task
    * Automatically attaches the current user's ID.
    * Sets the creation timestamp using `serverTimestamp()`.
@@ -48,7 +48,7 @@ export class TaskService {
     }
   }
   /**
-   * Retrieves tasks from Firestore in real-time.
+   *@description Retrieves tasks from Firestore in real-time.
    * Subscribes to the 'tasks' collection and listens for updates.
    * Emits an array of `ITask` objects whenever a change occurs.
    * Shows an error notification if fetching fails.
@@ -82,7 +82,7 @@ export class TaskService {
     });
   }
   /**
-   *Updates an existing task in Firestore.
+   *@description Updates an existing task in Firestore.
    * Automatically updates the `updatedAt` field with the current server time.
    * @param id : the uniqe ID of the task to update
    * @param data : data feild to update in the task
@@ -105,7 +105,7 @@ export class TaskService {
     }
   }
   /**
-   * Deletes a task from Firestore by its ID.
+   *@description Deletes a task from Firestore by its ID.
    * Removes the document from the 'tasks' collection.
    * Displays a notification if an error occurs.
    * @param id : The unique ID of the task to delete.

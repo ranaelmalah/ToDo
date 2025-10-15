@@ -12,9 +12,4 @@ import { NavbarComponent } from '../navbar/navbar.component';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  constructor(
-    private authService: AuthService,
-    private toastr: ToastrService,
-    private router: Router
-  ) {}
 }

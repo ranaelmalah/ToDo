@@ -5,7 +5,7 @@ export interface ITask {
   title: string;
   description: string;
   status: 'To do' | 'In progress' | 'Completed';
-  createdAt:Timestamp;
-  updatedAt?: Timestamp;
+  createdAt:Date;
+  updatedAt?: Date;
   userId?: string;
 }

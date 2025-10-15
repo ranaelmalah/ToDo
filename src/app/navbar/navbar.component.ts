@@ -39,7 +39,7 @@ export class NavbarComponent implements OnInit {
     });
   }
   /**
-  Logs out the current user by calling the authentication service.
+ @description Logs out the current user by calling the authentication service.
   Displays a success toast notification upon successful logout
   and redirects the user to the login page.
   @returns {void}
