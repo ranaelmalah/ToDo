@@ -1,2 +1,17 @@
-<p>home works!</p>
-<button class=" bg-cyan-500 py-2 px-5 rounded-3xl float-end " (click)="logOut()"> log out</button>
+<body class="bg-cyan-950 min-h-screen flex flex-col">
+  <app-navbar />
+  <header class="bg-gradient-to-r from-cyan-600 to-cyan-400 text-white py-12 shadow-lg rounded-b-3xl">
+    <div class="max-w-4xl mx-auto text-center px-6">
+      <div class="text-5xl mb-4">📝</div>
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+        Welcome to <span class="text-yellow-300">Task Manager</span>
+      </h1>
+      <p class="text-lg md:text-xl opacity-90 mb-6">
+        Organize your work, track progress, and stay productive every day.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+      </div>
+    </div>
+  </header>
+  <app-add-task />
+</body>
