@@ -30,8 +30,7 @@ export class AuthService {
     return signInWithEmailAndPassword(auth, email, password);
   }
   /**
- * Signs out the currently authenticated user from Firebase Authentication.
- * 
+ *@description Signs out the currently authenticated user from Firebase Authentication.
  * @returns {Promise<void>} A promise that resolves when the sign-out operation is complete
  */
   logout(): Promise<void> {

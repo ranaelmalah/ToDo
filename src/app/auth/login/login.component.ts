@@ -18,7 +18,7 @@ export class LoginComponent {
     private toastr: ToastrService
   ) {}
   /**
- * Handles the user login process using provided email and password credentials.
+ * @description Handles the user login process using provided email and password credentials.
  *
  * - Calls the authentication service to log in the user.
  * - On successful login:

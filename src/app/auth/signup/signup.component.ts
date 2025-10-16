@@ -17,6 +17,14 @@ export class SignupComponent {
     private router: Router,
     private toastr: ToastrService
   ) {}
+  /**
+ *@description Handles the user sign-up process.
+ * This method takes the user's email and password, calls the `AuthService.signUp()` method 
+ * to create a new account, and then provides user feedback based on the result.
+ * @param {AuthCredentials} param0 - The user's authentication credentials (email and password).
+ * @returns {Promise<void>} A promise that resolves when the sign-up process is complete.
+ */
+
   submitSignUp({ email, password }: AuthCredentials): Promise<void> {
     return this.AuthService.signUp(email, password)
       .then(() => {
