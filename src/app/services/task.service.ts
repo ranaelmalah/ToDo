@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {  Injectable } from '@angular/core';
 import {
   collection,
   addDoc,
@@ -91,8 +91,8 @@ export class TaskService {
    */
   async updateTask(id: string, data: Partial<ITask>): Promise<void> {
     try {
-      const user = auth.currentUser;
-      if (!user) {
+      const user=auth.currentUser;
+      if(!user){
         throw new Error('User not logged in');
       }
       await updateDoc(doc(db, 'tasks', id), {
